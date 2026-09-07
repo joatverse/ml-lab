@@ -2,9 +2,25 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   commitlint:
+    if: github.event_name == 'pull_request'
     permissions:
       contents: read
     uses: joatverse/.github/.github/workflows/commitlint.yml@main
+
+  release:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    uses: joatverse/.github/.github/workflows/release.yml@main
+    with:
+      runtime: python
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
