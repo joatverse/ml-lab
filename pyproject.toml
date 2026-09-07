@@ -1,0 +1,10 @@
+[project]
+name = "ml-lab"
+version = "0.0.0"
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+build_command = false
+
+[tool.semantic_release.branches.main]
+match = "main"
