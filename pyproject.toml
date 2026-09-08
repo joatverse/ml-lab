@@ -8,3 +8,10 @@ build_command = ""
 
 [tool.semantic_release.branches.main]
 match = "main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

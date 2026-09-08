@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Only staged files, only Python.
+mapfile -t -d '' FILES < <(
+  git diff --cached --name-only --diff-filter=ACMR -z -- '*.py'
+)
+
+[ ${#FILES[@]} -eq 0 ] && exit 0
+
+# check --fix first (imports, unused code), format second (layout) — order matters
+uvx ruff check --fix -- "${FILES[@]}"
+uvx ruff format -- "${FILES[@]}"
+git add -- "${FILES[@]}"
